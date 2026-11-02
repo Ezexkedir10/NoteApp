@@ -1,0 +1,25 @@
+# Local PostgreSQL for development only.
+# Start:  docker compose up -d
+# Stop:   docker compose down        (data is kept in the named volume)
+# Reset:  docker compose down -v     (deletes all data)
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: notes-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: notes_user
+      POSTGRES_PASSWORD: notes_password
+      POSTGRES_DB: notes_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - notes_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U notes_user -d notes_db"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  notes_pgdata:
