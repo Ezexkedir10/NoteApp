@@ -1,0 +1,13 @@
+"use client";
+
+import { useContext } from "react";
+import { ToastContext } from "@/components/ToastProvider";
+
+/** Access `showToast("success" | "error", message)` from any client component. */
+export function useToast() {
+  const context = useContext(ToastContext);
+  if (!context) {
+    throw new Error("useToast must be used inside <ToastProvider>.");
+  }
+  return context;
+}
