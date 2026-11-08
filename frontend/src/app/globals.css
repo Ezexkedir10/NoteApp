@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-paper font-sans text-ink antialiased;
+  }
+
+  :focus-visible {
+    outline: 2px solid theme("colors.accent.DEFAULT");
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  /*
+   * Notebook paper: one ruled line every 2rem, matching the 2rem line-height,
+   * so text sits on the lines. `local` makes the lines scroll with the text.
+   */
+  .ruled-paper {
+    line-height: 2rem;
+    background-image: linear-gradient(
+      to bottom,
+      transparent calc(2rem - 1px),
+      theme("colors.line.DEFAULT") calc(2rem - 1px)
+    );
+    background-size: 100% 2rem;
+    background-attachment: local;
+  }
+}
+
+/* Dialogs fade in; this answers a click, so it is user-triggered motion. */
+dialog[open] {
+  animation: dialog-in 160ms ease-out;
+}
+
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
